@@ -33,3 +33,4 @@ TODO.md
 /doc/html/*
 .idea
 .ai
+*.pdb
