@@ -19,7 +19,12 @@ if(ZeroMQ_FOUND)
   set(ZeroMQ_LIBRARIES ${ZeroMQ_LIBRARY})
 else()
 
-
+# Try the CMake config file shipped by vcpkg/Conan/system packages first
+# (handles Windows installs, where the Unix path search below finds nothing).
+find_package(ZeroMQ CONFIG QUIET)
+if(ZeroMQ_FOUND OR TARGET libzmq OR TARGET libzmq-static)
+  set(ZeroMQ_FOUND TRUE)
+else()
 
 if (ZeroMQ_LIBRARIES AND ZeroMQ_INCLUDE_DIRS)
   # in cache already
@@ -72,4 +77,5 @@ else (ZeroMQ_LIBRARIES AND ZeroMQ_INCLUDE_DIRS)
   endif()
 
 endif (ZeroMQ_LIBRARIES AND ZeroMQ_INCLUDE_DIRS)
+endif()
 endif(ZeroMQ_FOUND)
