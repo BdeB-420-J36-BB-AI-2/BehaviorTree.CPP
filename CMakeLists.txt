@@ -6,6 +6,15 @@ project(behaviortree_cpp VERSION 4.9.1 LANGUAGES C CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 
+# On Windows, single-config generators (e.g. Ninja) place each target's
+# output in a directory mirroring its source subdirectory, which scatters
+# executables away from the DLLs they depend on at runtime. Force every
+# runtime artifact into one folder so the OS loader can find sibling DLLs.
+if(WIN32)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
+
 #---- project configuration ----
 option(BTCPP_SHARED_LIBS "Build shared libraries" ON)
 option(BTCPP_BUILD_TOOLS "Build commandline tools" ON)
